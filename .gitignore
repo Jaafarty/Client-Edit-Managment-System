@@ -8,9 +8,6 @@
 /backend/vendor
 /frontend/bootstrap/ssr
 /frontend/node_modules
-/frontend/resources/js/actions
-/frontend/resources/js/routes
-/frontend/resources/js/wayfinder
 .DS_Store
 .env
 .env.backup

@@ -5,6 +5,8 @@
 
 Laravel and React are connected through Inertia. Laravel serves the application at [localhost:8000](http://localhost:8000), and Vite serves the frontend assets during development.
 
+`backend/routes/web.php` maps URLs to controller methods. `backend/app/Http/Controllers/HomeController.php` handles `/` and renders `frontend/resources/js/pages/home.tsx`.
+
 ## Local development
 
 From the project root, run the following in PowerShell. Use `composer setup` for a fresh clone.
@@ -15,6 +17,21 @@ composer setup
 composer run dev
 ```
 
-To run the servers in separate terminals, run `php artisan serve` in `backend/` and `npm.cmd run dev` in `frontend/`. Run migrations with `php artisan migrate` in `backend/`.
+To run the servers in separate terminals, run `php artisan serve` in `backend/` and `npm.cmd run dev` in `frontend/`.
 
-Laravel reads the database settings from `backend/.env`. Fresh installs use SQLite by default. To use MySQL, create a local database, set the `DB_*` values in `backend/.env`, and run the migrations.
+## MySQL
+
+The local configuration points to the `clientedit` database on `127.0.0.1:3306`. Create that database and set `DB_USERNAME` and `DB_PASSWORD` in `backend/.env` to match your MySQL account. Laravel uses files for local sessions and cache.
+
+Add your own migrations under `backend/database/migrations`, then run `php artisan migrate` from `backend/`.
+
+## Admin sign-in
+
+From `backend/`, apply the migrations and create your admin account.
+
+```powershell
+php artisan migrate
+php artisan admin:create
+```
+
+Enter your admin email and a password of at least 12 characters. The command prompts for the password twice and stores its hash. Sign in at [localhost:8000/login](http://localhost:8000/login).
