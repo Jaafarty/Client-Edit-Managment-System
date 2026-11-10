@@ -16,9 +16,11 @@ class AdminSessionTest extends TestCase
     {
         $this->get(route('home'))->assertRedirect(route('login'));
 
-        $this->get(route('login'))->assertOk()->assertInertia(
+        $login = $this->get(route('login'))->assertOk()->assertInertia(
             fn (Assert $page) => $page->component('login'),
         );
+        $this->assertTrue($login->headers->hasCacheControlDirective('no-store'));
+        $this->assertTrue($login->inertiaPage()['encryptHistory']);
     }
 
     public function test_an_admin_can_be_created_sign_in_and_sign_out(): void
@@ -44,9 +46,23 @@ class AdminSessionTest extends TestCase
         ])->assertRedirect(route('home'));
         $this->assertAuthenticatedAs($admin);
 
+        $home = $this->get(route('home'))->assertOk();
+        $this->assertTrue($home->headers->hasCacheControlDirective('no-store'));
+        $this->assertTrue($home->inertiaPage()['encryptHistory']);
+        $this->assertTrue($home->inertiaPage()['clearHistory']);
+        $this->get(route('login'))->assertRedirect(route('home'));
+
+        $sessionId = session()->getId();
+        $csrfToken = session()->token();
         $this->post(route('logout'))->assertRedirect(route('login'));
         $this->assertGuest();
+        $this->assertNotSame($sessionId, session()->getId());
+        $this->assertNotSame($csrfToken, session()->token());
+
+        $login = $this->get(route('login'))->assertOk();
+        $this->assertTrue($login->inertiaPage()['clearHistory']);
         $this->get(route('home'))->assertRedirect(route('login'));
+        $this->getJson('/api/edits')->assertUnauthorized();
     }
 
     public function test_failed_logins_are_rejected_and_rate_limited(): void

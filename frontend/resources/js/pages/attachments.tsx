@@ -1,6 +1,6 @@
-import { Head, Link, useForm } from '@inertiajs/react';
-import { useRef } from 'react';
-import type { FormEvent } from 'react';
+import { Head, Link, useForm } from "@inertiajs/react";
+import { useRef } from "react";
+import type { FormEvent } from "react";
 
 type AttachmentsProps = {
     edit: { id: number; title: string };
@@ -20,7 +20,7 @@ export default function Attachments({
     const fileInput = useRef<HTMLInputElement>(null);
     const form = useForm<{ file: File | null; description: string }>({
         file: null,
-        description: '',
+        description: "",
     });
 
     function upload(event: FormEvent<HTMLFormElement>) {
@@ -29,7 +29,7 @@ export default function Attachments({
             onSuccess: () => {
                 form.reset();
                 if (fileInput.current) {
-                    fileInput.current.value = '';
+                    fileInput.current.value = "";
                 }
             },
         });
@@ -58,7 +58,7 @@ export default function Attachments({
                         ref={fileInput}
                         onChange={(event) =>
                             form.setData(
-                                'file',
+                                "file",
                                 event.target.files?.[0] ?? null,
                             )
                         }
@@ -85,7 +85,7 @@ export default function Attachments({
                         rows={3}
                         value={form.data.description}
                         onChange={(event) =>
-                            form.setData('description', event.target.value)
+                            form.setData("description", event.target.value)
                         }
                     />
                     {form.errors.description && (
@@ -99,7 +99,7 @@ export default function Attachments({
                     disabled={form.processing}
                     type="submit"
                 >
-                    {form.processing ? 'Uploading…' : 'Upload attachment'}
+                    {form.processing ? "Uploading…" : "Upload attachment"}
                 </button>
                 {form.recentlySuccessful && (
                     <p role="status">Attachment uploaded.</p>
@@ -116,7 +116,7 @@ export default function Attachments({
                                     {attachment.original_name}
                                 </p>
                                 {attachment.description && (
-                                    <p className="text-sm break-words text-neutral-600">
+                                    <p className="text-sm wrap-break-words text-neutral-600">
                                         {attachment.description}
                                     </p>
                                 )}

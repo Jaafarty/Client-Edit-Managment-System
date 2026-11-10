@@ -9,7 +9,7 @@ export default function Login() {
 
     function signIn(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        post('/login', { onFinish: () => reset('password') });
+        post('/login', { replace: true, onFinish: () => reset('password') });
     }
 
     return (

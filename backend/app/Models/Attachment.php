@@ -9,6 +9,8 @@ class Attachment extends Model
 {
     protected $fillable = ['path', 'original_name', 'description'];
 
+    protected $hidden = ['path'];
+
     /**
      * @return BelongsTo<Edit, $this>
      */

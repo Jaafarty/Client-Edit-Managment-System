@@ -34,6 +34,7 @@ class AdminSessionController
         }
 
         $request->session()->regenerate();
+        Inertia::clearHistory();
 
         return redirect()->route('home');
     }
@@ -43,6 +44,7 @@ class AdminSessionController
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        Inertia::clearHistory();
 
         return redirect()->route('login');
     }

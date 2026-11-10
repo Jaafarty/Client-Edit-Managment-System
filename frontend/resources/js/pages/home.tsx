@@ -17,10 +17,14 @@ export default function Home({ name, edits }: HomeProps) {
                     className="rounded-md border px-4 py-2"
                     href="/logout"
                     method="post"
+                    replace
                 >
                     Sign out
                 </Link>
             </header>
+            <Link className="mt-6 inline-block underline" href="/edits">
+                Manage edits
+            </Link>
             <section className="mt-8">
                 <h2 className="text-xl font-semibold">Recent edits</h2>
                 {edits.length > 0 ? (
